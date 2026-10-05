@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+# Generated experiment outputs (re-create with the commands in README.md)
+experiments/data/
+experiments/plots/

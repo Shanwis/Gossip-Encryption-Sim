@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gossip-encryption-sim"
+version = "0.1.0"
+description = "Gossip-Based Secure Group Messaging Simulator in Linux Namespaces"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "cryptography>=42.0.0",
+    "networkx>=3.2",
+    "pandas>=2.2.0",
+    "matplotlib>=3.8.0",
+]
+
+[project.optional-dependencies]
+# Mirror of the PEP 735 group below for pip versions without `--group` support.
+dev = ["pytest>=8.0.0", "pytest-asyncio>=0.23.0"]
+
+[project.scripts]
+gossip-sim = "cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8.0.0", "pytest-asyncio>=0.23.0"]
+
+[tool.setuptools]
+# Flat layout with several top-level packages: list them explicitly, otherwise
+# setuptools auto-discovery refuses to build ("Multiple top-level packages").
+packages = ["crypto", "node", "simulator", "experiments"]
+py-modules = ["cli"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+markers = [
+    "root: requires root privileges, iproute2 and network namespaces",
+]
