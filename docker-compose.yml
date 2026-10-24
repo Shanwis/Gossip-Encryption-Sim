@@ -1,0 +1,47 @@
+services:
+  # Automated test runner: runs the entire pytest suite including root integration tests
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gossip-encryption-sim:latest
+    container_name: gossip-sim-test
+    privileged: true
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    command: python3 -m pytest -v
+
+  # Interactive CLI shell: interact with gossip-sim, inspect nodes, run manual tests
+  gossip-sim:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gossip-encryption-sim:latest
+    container_name: gossip-sim-interactive
+    privileged: true
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    command: /bin/bash
+
+  # Experiment runner: executes benchmark suites and generates evaluation plots
+  experiments:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gossip-encryption-sim:latest
+    container_name: gossip-sim-experiments
+    privileged: true
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    command: >
+      bash -c "python3 -m experiments.convergence --quick &&
+               python3 -m experiments.partition_recovery --quick &&
+               python3 -m experiments.churn_resilience --quick &&
+               python3 -m experiments.attack_metrics --quick &&
+               python3 -m experiments.plotter &&
+               echo 'All experiments and plots generated successfully in experiments/plots and experiments/data'"

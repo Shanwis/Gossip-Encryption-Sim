@@ -62,6 +62,8 @@ sudo python3 cli.py network heal                   # anti-entropy reconverges
 sudo python3 cli.py destroy                        # idempotent teardown
 ```
 
+See [DEMO.md](DEMO.md) for a complete, 10-phase copy-pasteable walkthrough of all features and attacks.
+
 Node commands talk to `/tmp/gossip-sim/sockets/<node>.sock` and must run as the
 user that invoked `sudo` (daemons drop privileges to `SUDO_UID`). Use `--home`
 or `GOSSIP_SIM_HOME` (with `sudo -E`) to relocate the simulator directory.
@@ -102,6 +104,7 @@ python3 -m experiments.plotter                      # PNG + CSV into experiments
 
 ```text
 cli.py                 gossip-sim CLI
+DEMO.md                complete end-to-end demo flow & command cheatsheet
 crypto/                encoding, identity (Ed25519), key_agreement (X25519/HKDF/AES-KW), symmetric (AES-GCM), certificate, engine facade
 node/                  daemon (asyncio TCP + UDS), messaging (framing, GROUP_MSG pipeline), gossip (updates, anti-entropy), state, control_server, logger
 simulator/             orchestrator (ledger, lifecycle), namespace, topology, network_impairer, attack_engine
